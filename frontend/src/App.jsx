@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css"
+import axios from 'axios'
 
 class App extends Component {
     constructor(){
@@ -14,6 +15,7 @@ class App extends Component {
         this.changeUsername = this.changeUsername.bind(this)
         this.changeEmail = this.changeEmail.bind(this)
         this.changePassword = this.changePassword.bind(this)
+        this.onSubmit = this.onSubmit.bind(this)
     }
 
     changeFullName(event){
@@ -36,6 +38,28 @@ class App extends Component {
             password:event.target.value
         }) 
     }
+
+    onSubmit(event){
+        event.preventDefault()
+
+        const registered = {
+            fullName: this.state.fullName,
+            username: this.state.username,
+            email: this.state.email,
+            password: this.state.password
+        }
+
+        axios.post('http://localhost:4000/api/signup', registered)
+        .then(response => console.log(response.data))
+
+        this.setState({
+            fullName: '',
+            username: '',
+            email:'',
+            password:''
+        })
+    }
+
     render() { 
         return (
             <div>
